@@ -12,6 +12,7 @@ tab$day = as.integer(factor(with(tab, paste(season, sprintf("%02d", matchday), s
 # we focus on predicting the outcome: win, draw, or lose
 tab$outcome = with(tab, ifelse(homegoals>guestgoals, "win", ifelse(homegoals==guestgoals, "draw", "lose")))
 head(tab)
+set.seed(42)
 ```
 
 ```{r}
@@ -67,7 +68,6 @@ head(fulltab)
 # number of correct predictions: this is the value to perform best on
 sum(fulltab$pred_outcome==fulltab$outcome, na.rm=TRUE)
 # getting more insights: confusion table (only for those over 50% probability)
-# getting more insights: confusion table (only for those over 50% probability)
 table(outcome = fulltab$outcome[fulltab$pred_confidence>0.5], pred = fulltab$pred_outcome[fulltab$pred_confidence>0.5])
 table(outcome = fulltab$outcome[!is.na(fulltab$pred_confidence)],
 pred = fulltab$pred_outcome[!is.na(fulltab$pred_confidence)])
@@ -95,17 +95,6 @@ pred = fulltab$random[!is.na(fulltab$pred_confidence)])
 ```
 
 ```{r}
-# predictions and confidence scores for the games
-# The output is a data.frame of same rowlength as the original data
-# But with NAs for those games, which were not predicted
-oc = outcomeConfidence(minday, tab)
-# bind prediction data.frame to the original data
-fulltab = cbind(tab, oc)
-head(fulltab)
-# number of correct predictions: this is the value to perform best on
-sum(fulltab$pred_outcome==fulltab$outcome, na.rm=TRUE)
-# getting more insights: confusion table (only for those over 50% probability)
-table(outcome = fulltab$outcome[fulltab$pred_confidence>0.5], pred = fulltab$pred_outcome[fulltab$pred_confidence>0.5])
 # applying a rejection threshold, e.g. if confidence is below 0.6 we just randomly select an outcome
 idx = which(fulltab$pred_confidence < 0.6)
 fulltab$adj_outcome = fulltab$pred_outcome

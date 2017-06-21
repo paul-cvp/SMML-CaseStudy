@@ -22,22 +22,22 @@ minday = max(tab$day) - 50
 predictNaiveProbs <- function (pred_match, data) {
   data$home = factor(data$home)
   probs = sapply(
-  1:nrow(pred_match),
-  function(i){
-  x1 = as.character(pred_match[i,1])
-  x2 = as.character(pred_match[i,2])
-  ## for a match with a new team, equal probs of outcomes
-  ## (feel free to make this more clever)
-  if(!(x1 %in% levels(data$home))) {
-    return (c(win=1/3, draw=1/3, lose=1/3))
-  }
-  result_history = data$outcome[data$home==x1]
-    c(
-      win = mean(result_history == "win"),
-      draw = mean(result_history == "draw"),
-      lose = mean(result_history == "lose")
-    )
-  }
+    1:nrow(pred_match),
+    function(i){
+      x1 = as.character(pred_match[i,1])
+      x2 = as.character(pred_match[i,2])
+      ## for a match with a new team, equal probs of outcomes
+      ## (feel free to make this more clever)
+      if(!(x1 %in% levels(data$home))) {
+        return (c(win=1/3, draw=1/3, lose=1/3))
+      }
+      result_history = data$outcome[data$home==x1]
+      c(
+        win = mean(result_history == "win"),
+        draw = mean(result_history == "draw"),
+        lose = mean(result_history == "lose")
+      )
+    }
   )
   t(probs)
 }
@@ -73,10 +73,10 @@ table(outcome = fulltab$outcome[!is.na(fulltab$pred_confidence)],
 pred = fulltab$pred_outcome[!is.na(fulltab$pred_confidence)])
 # getting more insights: true positive rate vs ranked predictions
 getTPR = function(oc, tab){
-oc$tp = tab$outcome == oc$pred_outcome
-oco = oc[order(oc$pred_confidence, decreasing=TRUE), ]
-oco$tpr = cumsum(oco$tp)/1:nrow(oco)
-oco
+  oc$tp = tab$outcome == oc$pred_outcome
+  oco = oc[order(oc$pred_confidence, decreasing=TRUE), ]
+  oco$tpr = cumsum(oco$tp)/1:nrow(oco)
+  oco
 }
 oco = getTPR (oc, tab)
 plot(na.omit(oco$tpr), ylim=c(0,1), type="l", xlab="prediction ranked by decreasing confidence score", ylab="true positive rate")
@@ -88,10 +88,8 @@ fulltab$random = NA
 idx = which(!is.na(fulltab$pred_confidence))
 fulltab$random[idx] = sample(c("win", "draw", "lose"), length(idx), replace = TRUE)
 sum(fulltab$random==fulltab$outcome, na.rm=TRUE)
-## [1] 154
 table(outcome = fulltab$outcome[!is.na(fulltab$pred_confidence)],
 pred = fulltab$random[!is.na(fulltab$pred_confidence)])
-
 ```
 
 ```{r}

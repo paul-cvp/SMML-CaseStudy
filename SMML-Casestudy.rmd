@@ -47,11 +47,11 @@ predictNaiveProbs <- function (pred_match, data) {
       x1_vs_x2 = data$outcome[data$home==x1 & data$guest==x2]
       
       #print(paste(x1," vs ",x2," ",result_history))
-      w1 = 0.275
-      w2 = 0.175
-      w3 = 0.075
-      w4 = 0.175
-      w5 = 0.3
+      w1 = 2
+      w2 = 0.5
+      w3 = 0.5
+      w4 = 4
+      w5 = 1
       return( c(
         win = w1*mean(rh_x1_home == "win")+w2*mean(rh_x1_guest=="win")+w3*mean(rh_x2_home=="win")+w4*mean(rh_x2_guest=="win")+w5*mean(x1_vs_x2=="win"),
         draw = w1*mean(rh_x1_home == "draw")+w2*mean(rh_x1_guest=="draw")+w3*mean(rh_x2_home=="draw")+w4*mean(rh_x2_guest=="draw")+w5*mean(x1_vs_x2=="draw"),

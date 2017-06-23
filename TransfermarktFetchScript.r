@@ -10,7 +10,9 @@ library(gdata)
         cl.tab <- trim(gsub("[\r\n]+", " ", raw.tab))
         spl.tab <- trim(strsplit(cl.tab, "%",fixed = TRUE)[[1]])
         spl.tab <- spl.tab[spl.tab != ""]
+        
         assign(paste("table",year,month,date,sep="."),spl.tab)
+        
       }
     }
   }

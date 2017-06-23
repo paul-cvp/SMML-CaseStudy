@@ -1,6 +1,6 @@
 ---
 title: "IN2332 Case Study"
-author: "Derrick Lim Tze Hsien"
+author: "Derrick Lim, Eiler Poulsen, Cosma Vlad, Stefan Hentschel "
 date: "June 20, 2017"
 output: html_document
 ---
